@@ -18,4 +18,12 @@ class ModelDownloader {
         let fileURL = directory.appendingPathComponent("\(modelName).pt")
         try data.write(to: fileURL)
     }
+    
+    func updateModel(modelName: String, in directory: URL) async throws {
+        let fileURL = directory.appendingPathComponent("\(modelName).pt")
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            try FileManager.default.removeItem(at: fileURL)
+        }
+        try await downloadModel(modelName: modelName, to: directory)
+    }
 }
